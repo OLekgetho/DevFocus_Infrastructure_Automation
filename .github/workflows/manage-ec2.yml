@@ -33,7 +33,6 @@ jobs:
         with:
           role-to-assume: ${{ env.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
-          audience: ${{ env.EC2_AWS_AUDIENCE }}
 
       - name: Start EC2 Instance
         if: ${{ github.event.inputs.action == 'start' }}
