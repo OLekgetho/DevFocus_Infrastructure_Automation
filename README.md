@@ -24,6 +24,7 @@ aws ec2 start-instances / stop-instances
 | Workflow | Trigger | What it does |
 |---|---|---|
 | **EC2 Control** | Manual (`workflow_dispatch`) | Start or stop a specific EC2 instance via a dropdown choice |
+| **DevFocus Health** | Manual (`workflow_dispatch`) | Check the health of the application in the EC2 instance |
  
 More automations will land here as needs appear (scheduled stop at night, budget-triggered shutdown, AMI backups).
  
