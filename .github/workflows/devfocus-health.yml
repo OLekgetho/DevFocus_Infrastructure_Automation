@@ -1,4 +1,4 @@
-name: devfocus-health.yml
+name: DevFocus Health
 on:
   workflow_dispatch:
 
