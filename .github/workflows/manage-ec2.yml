@@ -1,0 +1,47 @@
+name: EC2 Control
+
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to perform (start or stop)'
+        required: true
+        default: 'start'
+        type: choice
+        options:
+          - start
+          - stop
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: ${{ secrets.EC2_REGION }}
+  AWS_ROLE_ARN: ${{ secrets.EC2_AWS_ROLE }}
+  EC2_INSTANCE_ID: ${{ secrets.EC2_INSTANCE_ID }}
+
+jobs:
+  manage-ec2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Start EC2 Instance
+        if: ${{ github.event.inputs.action == 'start' }}
+        run: |
+          echo "Starting EC2 Instance..."
+          aws ec2 start-instances --instance-ids ${{ env.EC2_INSTANCE_ID }}
+
+      - name: Stop EC2 Instance
+        if: ${{ github.event.inputs.action == 'stop' }}
+        run: |
+          echo "Stopping EC2 Instance..."
+          aws ec2 stop-instances --instance-ids ${{ env.EC2_INSTANCE_ID }}
