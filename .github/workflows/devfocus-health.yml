@@ -40,7 +40,7 @@ jobs:
           chmod 600 ~/.ssh/ec2_key.pem
           echo "StrictHostKeyChecking=no" >> ~/.ssh/config
           
-          ssh -i ~/.ssh/ec2_key.pem "ubuntu@$EC2_HOST" '
+          ssh -o ConnectTimeout=15 -i ~/.ssh/ec2_key.pem "ubuntu@$EC2_HOST" '
             for i in $(seq 1 12); do
               if curl -sf http://localhost:$LOCALHOST_PORT/actuator/health; then
                 echo " — healthy after ${i}0s"
